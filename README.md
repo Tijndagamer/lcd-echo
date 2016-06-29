@@ -11,5 +11,7 @@ This configuration file should be formatted in the following way:
     address = 0x27
     width = 16
     max_lines = 2
+    backlight = True
+    clear_time = 60
 ```
 Please note that this configuration file will not be generated automatically.

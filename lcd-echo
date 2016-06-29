@@ -22,12 +22,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-#from LCD_i2c import LCD_i2c
+from LCD_i2c import LCD_i2c
 import argparse
+from time import sleep
 
-address = 0x27
-width = 16
-max_lines = 2
+ADDRESS = 0x27
+WIDTH = 16
+MAX_LINES = 2
+BACKLIGHT = True
+CLEAR_TIME = 60
+lcd = None
 
 def read_config():
     global address
@@ -38,15 +42,50 @@ def read_config():
     contents_list = contents.split("\n")
     for line in contents_list:
         if line.startswith("address"):
-            address = int(line.split(" = ")[1], 0)
+            ADDRESS = int(line.split(" = ")[1], 0)
         elif line.startswith("width"):
-            width = int(line.split(" = ")[1])
+            WIDTH = int(line.split(" = ")[1])
         elif line.startswith("max_lines"):
-            max_lines = int(line.split(" = ")[1])
+            MAX_LINES = int(line.split(" = ")[1])
+        elif line.startswith("backlight"):
+            if int(line.split(" = ")[1]) == "True":
+                BACKLIGHT = True
+            else:
+                BACKLIGHT = False
+        elif line.startswith("clear_time"):
+            CLEAR_TIME = int(line.split(" = ")[1])
         else:
-            break
+            pass
+
+    init()
+
+def init():
+    lcd = LCD_i2c(ADDRESS, WIDTH, MAX_LINES, BACKLIGHT)
+
+def echo(msg):
+    # Convert the list to one string
+    msg = " ".join(msg)
+
+    # Split the one string into chunks of WIDTH characters to make sure every
+    # character will be shown
+    lines = [msg[i:i+WIDTH] for i in range(0, len(msg), WIDTH)]
+    print lines
+
+    i = len(lines)
+    if i <= MAX_LINES: # Everything will fit on the screen simultaneously.
+        j = 0
+        while j < i:
+            lcd.lcd_print(lines[j], j + 1)
+            j = j + 1
+    else: # Everything will not fit on the screen simultaneously.
+        j = 0
+        while j < i:
+            lcd.lcd_print(lines[j], 1)
+            lcd.lcd_print(lines[j + 1], 2)
+            sleep(CLEAR_TIME)
+            j = j + 1
 
 parser = argparse.ArgumentParser(description="Display a line of text on a simple character LCD screen")
 parser.add_argument("string", metavar='[STRING]', nargs='+', help="string to write to the LCD")
 args = parser.parse_args()
-print args.string
+echo(args.string)
