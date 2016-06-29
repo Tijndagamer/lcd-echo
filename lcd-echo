@@ -1,0 +1,52 @@
+#!/usr/bin/python
+"""
+lcd-echo:
+    This program uses my LCD_i2c.py module to write from the terminal directly
+    to a simple character LCD.
+
+    For more information, please refer to README.md
+
+Copyright 2016 Tijndagamer
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
+#from LCD_i2c import LCD_i2c
+import argparse
+
+address = 0x27
+width = 16
+max_lines = 2
+
+def read_config():
+    global address
+    global width
+    global max_lines
+    with open("/etc/lcd-echo.conf", "r") as config_file:
+        contents = config_file.read()
+    contents_list = contents.split("\n")
+    for line in contents_list:
+        if line.startswith("address"):
+            address = int(line.split(" = ")[1], 0)
+        elif line.startswith("width"):
+            width = int(line.split(" = ")[1])
+        elif line.startswith("max_lines"):
+            max_lines = int(line.split(" = ")[1])
+        else:
+            break
+
+parser = argparse.ArgumentParser(description="Display a line of text on a simple character LCD screen")
+parser.add_argument("string", metavar='[STRING]', nargs='+', help="string to write to the LCD")
+args = parser.parse_args()
+print args.string
