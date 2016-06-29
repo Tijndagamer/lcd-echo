@@ -83,7 +83,7 @@ def echo(msg):
         j = 0
         while j < i:
             if j + 1 == i: # Keep scrolling trough the lines
-                j = 0
+                break
             lcd.lcd_print(lines[j], 1)
             lcd.lcd_print(lines[j + 1], 2)
             sleep(CLEAR_TIME)
