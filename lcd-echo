@@ -68,26 +68,7 @@ def init():
 def echo(msg):
     # Convert the list to one string
     msg = " ".join(msg)
-
-    # Split the one string into chunks of WIDTH characters to make sure every
-    # character will be shown
-    lines = [msg[i:i+WIDTH] for i in range(0, len(msg), WIDTH)]
-
-    i = len(lines)
-    if i <= MAX_LINES: # Everything will fit on the screen simultaneously.
-        j = 0
-        while j < i:
-            lcd.lcd_print(lines[j], j + 1)
-            j = j + 1
-    else: # Everything will not fit on the screen simultaneously.
-        j = 0
-        while j < i:
-            if j + 1 == i: # Keep scrolling trough the lines
-                break
-            lcd.lcd_print(lines[j], 1)
-            lcd.lcd_print(lines[j + 1], 2)
-            sleep(CLEAR_TIME)
-            j = j + 1
+    lcd.lcd_print(msg)
 
 parser = argparse.ArgumentParser(description="Display a line of text on a simple character LCD screen")
 parser.add_argument("-s", "--string", metavar='[STRING]', nargs='+', help="string to write to the LCD")
