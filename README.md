@@ -15,3 +15,13 @@ This configuration file should be formatted in the following way:
     clear_time = 60
 ```
 Please note that this configuration file will not be generated automatically.
+
+# Usage
+
+lcd-echo accepts the following options:
+
+```
+-h, --help                          show help message
+-s [STRING], --string [STRING]      string to write to the LCD
+-c, --clear                         clear the LCD
+```
