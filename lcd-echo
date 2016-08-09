@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """
 lcd-echo:
-    This program uses my LCD_i2c.py module to write from the terminal directly
+    This program uses my lcd-i2c.py module to write from the terminal directly
     to a simple character LCD.
 
     For more information, please refer to README.md
@@ -22,7 +22,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from LCD_i2c import LCD_i2c
+from lcd-i2c import lcd-i2c
 import argparse
 from time import sleep
 
@@ -63,7 +63,7 @@ def read_config():
 
 def init():
     global lcd
-    lcd = LCD_i2c(ADDRESS, WIDTH, MAX_LINES, BACKLIGHT)
+    lcd = lcd-i2c(ADDRESS, WIDTH, MAX_LINES, BACKLIGHT)
 
 def echo(msg):
     # Convert the list to one string
