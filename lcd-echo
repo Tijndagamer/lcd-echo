@@ -63,7 +63,7 @@ def read_config():
 
 def init():
     global lcd
-    lcd = lcd-i2c(ADDRESS, WIDTH, MAX_LINES, BACKLIGHT)
+    lcd = lcd_i2c(ADDRESS, WIDTH, MAX_LINES, BACKLIGHT)
 
 def echo(msg):
     # Convert the list to one string
