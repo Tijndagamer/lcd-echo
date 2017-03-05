@@ -76,7 +76,7 @@ parser.add_argument("-c", "--clear", help="clear the lcd screen", action="store_
 args = parser.parse_args()
 if args.clear:
     read_config()
-    lcd.lcd_clear()
+    lcd.clear()
 else:
     read_config()
     echo(args.string)
